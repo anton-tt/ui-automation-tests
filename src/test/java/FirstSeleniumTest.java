@@ -1,9 +1,7 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -28,22 +26,25 @@ public class FirstSeleniumTest {
             passwordField.sendKeys("12345");
 
             WebElement milkCheckbox = wait.until(ExpectedConditions.elementToBeClickable(By.id("drink2")));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", milkCheckbox);
-            milkCheckbox.click();
+            //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", milkCheckbox);
+            //milkCheckbox.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", milkCheckbox);
             WebElement coffeeCheckbox = wait.until(ExpectedConditions.elementToBeClickable(By.id("drink3")));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", coffeeCheckbox);
-            coffeeCheckbox.click();
+            //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", coffeeCheckbox);
+            //coffeeCheckbox.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", coffeeCheckbox);
 
-            WebElement greenRadio = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[value='Green']")));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", greenRadio);
-            greenRadio.click();
+            WebElement yellowRadio = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[value='Yellow']")));
+            //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", yellowRadio);
+            //yellowRadio.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", yellowRadio);
 
             WebElement automationSelect = driver.findElement(By.cssSelector("[data-testid='automation']"));
             Select select = new Select(automationSelect);
             select.selectByVisibleText("Yes");
 
             WebElement emailField = driver.findElement(By.xpath("//input[@id='email']"));
-            emailField.sendKeys("anton@mail.ru");
+            emailField.sendKeys("name@example.com");
 
             String[] tools = {"Selenium", "WebDriverManager", "JUnit", "Maven"};
             String longestTool = "";
@@ -56,6 +57,15 @@ public class FirstSeleniumTest {
 
             WebElement messageField = driver.findElement(By.id("message"));
             messageField.sendKeys(messageText);
+
+            WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-btn")));
+            //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", submitButton);
+            //submitButton.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submitButton);
+
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            Assertions.assertEquals("Message received!", alert.getText());
+            alert.accept();
         } finally {
             driver.quit();
         }
