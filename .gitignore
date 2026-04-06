@@ -7,6 +7,7 @@ target/
 
 # Java
 *.class
+/src/test/java/tests/FirstSeleniumTest.java
 
 # Environment files
 .env
