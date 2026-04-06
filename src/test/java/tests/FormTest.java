@@ -14,7 +14,7 @@ public class FormTest {
         WebDriver driver = new ChromeDriver();
         try {
             FormPage form = new FormPage(driver);
-
+            String[] tools = {"Selenium", "WebDriverManager", "JUnit", "Maven"};
             form.open()
                     .enterName("Anton")
                     .enterPassword("12345")
@@ -22,7 +22,8 @@ public class FormTest {
                     .selectCoffee()
                     .selectYellowColor()
                     .selectAutomationYes()
-                    .enterEmail("test@example.com");
+                    .enterEmail("test@example.com")
+                    .enterMessageWithTools(tools);
 
         } finally {
             driver.quit();
