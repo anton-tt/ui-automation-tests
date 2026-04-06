@@ -106,9 +106,8 @@ public class FormPage {
 
     @Step("Отправляем форму")
     public FormPage submitForm() {
-        //wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        //submitButton.click();
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submitButton);
+        wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+        submitButton.click();
         return this;
     }
 
