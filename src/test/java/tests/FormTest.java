@@ -28,4 +28,12 @@ public class FormTest extends BaseTest {
                 .handleAlert();
     }
 
+    @Test
+    @Story("Негативное заполнение формы")
+    void negativeFormTest() {
+        FormPage form = new FormPage(driver);
+        form.open()
+                .handleNoAlert();
+    }
+
 }

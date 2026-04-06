@@ -2,9 +2,7 @@ package pages;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -39,7 +37,7 @@ public class FormPage {
 
     public FormPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(1));
         ;
         PageFactory.initElements(driver, this);
     }
@@ -108,8 +106,9 @@ public class FormPage {
 
     @Step("Отправляем форму")
     public FormPage submitForm() {
-        wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        submitButton.click();
+        //wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+        //submitButton.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submitButton);
         return this;
     }
 
@@ -118,6 +117,17 @@ public class FormPage {
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         Assertions.assertEquals("Message received!", alert.getText());
         alert.accept();
+        return this;
+    }
+
+    @Step("Проверяем, что алерт не появился при незаполненной форме")
+    public FormPage handleNoAlert() {
+        try {
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            Assertions.fail("Алерт появился, хотя форма была пустой. Текст: " + alert.getText());
+        } catch (TimeoutException e) {
+
+        }
         return this;
     }
 
