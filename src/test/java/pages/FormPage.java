@@ -1,5 +1,8 @@
 package pages;
 
+import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,58 +32,68 @@ public class FormPage {
     private WebElement automationSelect;
     @FindBy(id = "email")
     private WebElement emailField;
-    @FindBy(id ="message")
+    @FindBy(id = "message")
     private WebElement messageField;
     @FindBy(id = "submit-btn")
     private WebElement submitButton;
 
     public FormPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        ;
         PageFactory.initElements(driver, this);
     }
 
+    @Step("Открываем форму")
     public FormPage open() {
         driver.get(FORM_URL);
         return this;
     }
 
+    @Step("Вводим имя: {name}")
     public FormPage enterName(String name) {
         nameField.sendKeys(name);
         return this;
     }
 
+    @Step("Вводим пароль: {password}")
     public FormPage enterPassword(String password) {
         passwordField.sendKeys(password);
         return this;
     }
 
+    @Step("Выбираем Молоко")
     public FormPage selectMilk() {
         milkCheckbox.click();
         return this;
     }
 
+    @Step("Выбираем Кофе")
     public FormPage selectCoffee() {
         coffeeCheckbox.click();
         return this;
     }
 
+    @Step("Выбираем цвет: Yellow")
     public FormPage selectYellowColor() {
         yellowRadio.click();
         return this;
     }
 
+    @Step("Выбираем Automation: Yes")
     public FormPage selectAutomationYes() {
         Select select = new Select(automationSelect);
         select.selectByVisibleText("Yes");
         return this;
     }
 
+    @Step("Вводим Email: {email}")
     public FormPage enterEmail(String email) {
         emailField.sendKeys(email);
         return this;
     }
 
+    @Step("Вводим сообщение с инструментами: {tools}")
     public FormPage enterMessageWithTools(String[] tools) {
         String longestTool = "";
         for (String tool : tools) {
@@ -93,9 +106,19 @@ public class FormPage {
         return this;
     }
 
+    @Step("Отправляем форму")
     public FormPage submitForm() {
         wait.until(ExpectedConditions.elementToBeClickable(submitButton));
         submitButton.click();
         return this;
     }
+
+    @Step("Обрабатываем алерт с текстом")
+    public FormPage handleAlert() {
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        Assertions.assertEquals("Message received!", alert.getText());
+        alert.accept();
+        return this;
+    }
+
 }
