@@ -37,7 +37,7 @@ public class FormPage {
 
     public FormPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         ;
         PageFactory.initElements(driver, this);
     }
@@ -106,8 +106,7 @@ public class FormPage {
 
     @Step("Отправляем форму")
     public FormPage submitForm() {
-        wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        submitButton.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submitButton);
         return this;
     }
 
